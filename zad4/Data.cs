@@ -23,26 +23,37 @@
 
         public Data(int year, int month, int day)
         {
-            if(year > 0)
+            if(year >= 1)
             {
                 this.year = year;
             }
-            if(month > 0 && month <= 12)
+            else
+            {
+                throw new Exception("Podano zły rok");
+            }
+            if (month >= 1 && month <= 12)
             {
                 this.month = month;
-
             }
-            if(day > 0 && day <= 31)
+            else
+            {
+                throw new Exception("Podano zły miesiąc");
+            }
+            if (day >= 1 && day <= months[month])
             {
                 this.day = day;
+            }
+            else
+            {
+                throw new Exception("Podano zły dzień");
             }
         }
         public void WypiszDate() 
         {
-            Console.WriteLine($"{year}-{month}-{day}");
+            Console.WriteLine($"{year}-{month.ToString("00")}-{day.ToString("00")}");
         }
 
-        public Data PrzesunDoPrzodu()
+        public void PrzesunDoPrzodu()
         {
             var newDay = day + 7;
             if(newDay > months[month])
@@ -50,37 +61,37 @@
                 if(month != 12)
                 {
                     month++;
-                    day = newDay - month;
+                    day = newDay - months[month];
                 }
                 else
                 {
                     year++;
-                    day = newDay - month;
+                    day = newDay - months[month];
                     month = 1;
                 }
+                return;
             }
             day = newDay;
-            return new Data(year, month, day);
         }
-        public Data PrzesunDoTylu()
+        public void PrzesunDoTylu()
         {
             var newDay = day - 7;
-            if (newDay > months[month])
+            if (newDay < 1)
             {
                 if (month != 1)
                 {
                     month--;
-                    day = newDay - month;
+                    day = months[month] - Math.Abs(newDay);
                 }
                 else
                 {
                     year--;
-                    day = newDay - month;
+                    day = months[month] - Math.Abs(newDay);
                     month = 12;
                 }
+                return;
             }
             day = newDay;
-            return new Data(year, month, day);
         }
     }
 }
