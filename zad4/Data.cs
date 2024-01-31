@@ -5,7 +5,7 @@
         private int year;
         private int month;
         private int day;
-        private static Dictionary<int, int> months = new Dictionary<int, int>
+        private readonly static Dictionary<int, int> months = new Dictionary<int, int>
         {
             { 1, 31 },
             { 2, 29 },
@@ -23,30 +23,21 @@
 
         public Data(int year, int month, int day)
         {
-            if(year >= 1)
-            {
-                this.year = year;
-            }
-            else
+            if(year < 1)
             {
                 throw new Exception("Podano zły rok");
             }
-            if (month >= 1 && month <= 12)
-            {
-                this.month = month;
-            }
-            else
+            if (month < 1 || month > 12)
             {
                 throw new Exception("Podano zły miesiąc");
             }
-            if (day >= 1 && day <= months[month])
-            {
-                this.day = day;
-            }
-            else
+            if (day < 1 || day > months[month])
             {
                 throw new Exception("Podano zły dzień");
             }
+            this.year = year;
+            this.month = month;
+            this.day = day;
         }
         public void WypiszDate() 
         {
